@@ -224,7 +224,7 @@
   INSERT INTO vendaproduto (idvenda, idproduto, quantidade) VALUES (3,4,1);
 
 # Beecrowd
-## NULL
+## NULL e que só aparecem em uma tabela
 ![Opera Instantâneo_2024-08-17_231243_judge beecrowd com](https://github.com/user-attachments/assets/6962d94a-770d-4421-8131-62d563fff689)
 - SELECT customers.id, customers.name
   FROM customers
@@ -236,7 +236,7 @@
   FROM customers
   INNER JOIN orders ON orders.id_customers = customers.id
   WHERE orders.orders_date BETWEEN '2016-01-01' AND '2016-06-30';
-## Nome com letra
+## Buscar letra no início 
 ![Opera Instantâneo_2024-08-17_232354_resources beecrowd com](https://github.com/user-attachments/assets/646f8d5e-7f48-487c-b827-10131e25294b)
 - SELECT products.name 
   FROM products
@@ -262,36 +262,22 @@
   INNER JOIN customers ON natural_person.id_customers = customers.id;
 ## Varios WHERE diferentes e apresentar em inteiros
 ![Opera Instantâneo_2024-08-19_154514_resources beecrowd com](https://github.com/user-attachments/assets/508944af-21fe-4097-9a03-7281b84b288f)
-- SELECT 
-    name,
-    customers_number
+- SELECT name, customers_number
   FROM
-      (SELECT 
-          name, 
-          customers_number
-       FROM 
-          lawyers
-       WHERE 
-          customers_number = (SELECT MAX(customers_number) FROM lawyers)
+      (SELECT name, customers_number
+       FROM lawyers
+       WHERE customers_number = (SELECT MAX(customers_number) FROM lawyers)
        UNION ALL
-       SELECT 
-          name, 
-          customers_number
-       FROM 
-          lawyers
-       WHERE 
-          customers_number = (SELECT MIN(customers_number) FROM lawyers)
+       SELECT name, customers_number
+       FROM lawyers
+       WHERE customers_number = (SELECT MIN(customers_number) FROM lawyers)
       ) AS subquery
   UNION ALL
-  SELECT 
-      'Average' AS name,
-      FLOOR(AVG(customers_number)) AS customers_number
-  FROM 
-      lawyers;
+  SELECT 'Average' AS name, FLOOR(AVG(customers_number)) AS customers_number
+  FROM lawyers;
 ## Média Ponderada 
 ![Opera Instantâneo_2024-08-19_165902_resources beecrowd com](https://github.com/user-attachments/assets/c6b53764-5e1e-47d1-a070-22cef414d49d)
-- SELECT 
-    candidate.name, 
+- SELECT candidate.name, 
     ROUND(
         (
             (score.math * 2) + 
