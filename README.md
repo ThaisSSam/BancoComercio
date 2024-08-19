@@ -250,6 +250,63 @@
   INNER JOIN categories ON products.id_categories = categories.id
   WHERE products.amount > 100 AND categories.id IN (1,2,3,6,9) 
   ORDER BY categories.id ASC;
+## Mascaca cpf CONCAT
+![Opera Instantâneo_2024-08-19_160802_resources beecrowd com](https://github.com/user-attachments/assets/eee132b9-bcd5-46ff-a23c-550dda2f1ec5)
+- SELECT CONCAT(
+        SUBSTRING(cpf, 1, 3), '.', 
+        SUBSTRING(cpf, 4, 3), '.', 
+        SUBSTRING(cpf, 7, 3), '-', 
+        SUBSTRING(cpf, 10, 2)
+    ) AS cpf
+  FROM natural_person 
+  INNER JOIN customers ON natural_person.id_customers = customers.id;
+## Varios WHERE diferentes e apresentar em inteiros
+![Opera Instantâneo_2024-08-19_154514_resources beecrowd com](https://github.com/user-attachments/assets/508944af-21fe-4097-9a03-7281b84b288f)
+- SELECT 
+    name,
+    customers_number
+  FROM
+      (SELECT 
+          name, 
+          customers_number
+       FROM 
+          lawyers
+       WHERE 
+          customers_number = (SELECT MAX(customers_number) FROM lawyers)
+       UNION ALL
+       SELECT 
+          name, 
+          customers_number
+       FROM 
+          lawyers
+       WHERE 
+          customers_number = (SELECT MIN(customers_number) FROM lawyers)
+      ) AS subquery
+  UNION ALL
+  SELECT 
+      'Average' AS name,
+      FLOOR(AVG(customers_number)) AS customers_number
+  FROM 
+      lawyers;
+## Média Ponderada 
+![Opera Instantâneo_2024-08-19_165902_resources beecrowd com](https://github.com/user-attachments/assets/c6b53764-5e1e-47d1-a070-22cef414d49d)
+- SELECT 
+    candidate.name, 
+    ROUND(
+        (
+            (score.math * 2) + 
+            (score.specific * 3) + 
+            (score.project_plan * 5)
+        ) / 10, 2
+    ) AS avg
+    FROM candidate
+    INNER JOIN score ON score.candidate_id = candidate.id 
+    ORDER BY avg DESC;
+## Extrair dia de data 
+![Opera Instantâneo_2024-08-19_171006_resources beecrowd com](https://github.com/user-attachments/assets/aa749bcb-2232-45cd-8e0a-7414b5b5ba3d)
+- SELECT name, TO_CHAR(payday, 'DD')::integer AS day
+  FROM loan;
+
 
 
 
